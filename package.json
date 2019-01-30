@@ -2,16 +2,28 @@
   "name": "react-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "dependencies": {
+    "chalk": "^2.4.2",
+    "ip": "^1.1.5",
+    "lodash": "^4.17.11",
     "webpack": "^4.29.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.2.1"
+    "clean-webpack-plugin": "^1.0.1",
+    "css-loader": "^2.1.0",
+    "express": "^4.16.4",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-middleware": "^3.5.1",
+    "webpack-hot-middleware": "^2.24.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config configs/webpack.dev.config.js",
+    "start": "node server"
   },
   "repository": {
     "type": "git",
