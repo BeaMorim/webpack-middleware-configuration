@@ -45,27 +45,34 @@ module.exports = (options) => ({
             template: 'src/index.html',
             inject: true
         })
-
-        // PRODUCTION
-        /*
-            new HtmlWebpackPlugin({
-                title: 'Personal React Boilerplate',
-                template: 'src/index.html',
-                inject: true,
-                minify: {
-                    collapseWhitespace: true,
-                    removeComments: true,
-                    removeRedundantAttributes: true,
-                    removeScriptTypeAttributes: true,
-                    removeStyleLinkTypeAttributes: true,
-                    useShortDoctype: true,
-                    keepClosingSlash: true,
-                    minifyCSS: true,
-                    minifyJS: true,
-                    minifyURLs: true,
-                }
-            })
+    ],
+    optimization: {
+        /* 
+        * Finds modules which are shared between chunk and splits them into separate chunks 
+        * to reduce duplication or separate vendor modules from application modules 
         */
-    ]
+		splitChunks: {
+			/* The name of the split chunk. Providing true will automatically generate a name based on chunks and cache group key */
+			name: true,
+			chunks: 'all',
+
+			/* Cache groups can inherit and/or override any options from splitChunks */
+			cacheGroups: {
+				vendors: {
+					name: 'vendors',
+					test: /[\\/]node_modules[\\/]/,
+
+					/* A module can belong to multiple cache groups. The optimization will prefer the cache group with a higher priority */
+					priority: -10
+				},
+				default: {
+					/* Minimum number of chunks that must share a module before splitting. */
+					minChunks: 2,
+					priority: -20,
+					reuseExistingChunk: true
+				}
+			}
+		}
+	}
 });
 
