@@ -13,6 +13,13 @@ module.exports = (options) => ({
     module: {
         rules: [
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader', // The style-loader adds CSS to the DOM by injecting a <style> tag.
