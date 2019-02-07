@@ -1,10 +1,14 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = (options) => ({
     ...options,
-    entry: './src/index.js',
+    entry: [
+        'webpack-hot-middleware/client?reload=true',
+        './src/index.js',
+    ],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, '../dist'),
@@ -51,7 +55,10 @@ module.exports = (options) => ({
             title: 'Personal React Boilerplate',
             template: 'src/index.html',
             inject: true
-        })
+        }),
+
+        /* Tell webpack we want hot reloading */
+        new webpack.HotModuleReplacementPlugin()
     ],
     optimization: {
         /* 
