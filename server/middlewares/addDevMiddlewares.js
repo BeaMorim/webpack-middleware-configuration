@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const compression = require('compression');
 
 module.exports = function addDevMiddlewarees(app, webpackConfig) {
 
@@ -18,6 +19,8 @@ module.exports = function addDevMiddlewarees(app, webpackConfig) {
     /* Options for formatting statistics displayed during and after compile */
     stats: 'errors-only', 
   });
+
+  app.use(compression());
 
   /* 
   * To setup your middleware, you can invoke app.use(middleware) for every middleware layer that you want 
