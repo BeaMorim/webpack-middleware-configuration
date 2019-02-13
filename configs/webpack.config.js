@@ -2,16 +2,17 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = (options) => ({
     ...options,
     entry: [
         'webpack-hot-middleware/client?reload=true',
-        './src/index.js',
+        './app/index.js',
     ],
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, '../build'),
         publicPath: '/'
     },
     module: {
@@ -20,7 +21,7 @@ module.exports = (options) => ({
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
+                    loader: 'babel-loader'
                 }
             },
             {
@@ -46,19 +47,38 @@ module.exports = (options) => ({
     },
     plugins: [
         /* A webpack plugin to remove/clean your build folder(s) before building */
-        new CleanWebpackPlugin(['dist'], {
+        new CleanWebpackPlugin(['build'], {
             root: path.join(__dirname, '..')
         }),
 
         /* Plugin that simplifies creation of HTML files to serve your bundles */
         new HtmlWebpackPlugin({
             title: 'Personal React Boilerplate',
-            template: 'src/index.html',
+            template: 'app/index.html',
             inject: true
         }),
 
         /* Tell webpack we want hot reloading */
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+
+        /* 
+        * webpack-pwa-manifest is a webpack plugin that generates a 'manifest.json' for your Progressive Web Application, 
+        * with auto icon resizing and fingerprinting support 
+        */
+        new WebpackPwaManifest({
+            name: 'React Boilerplate',
+            theme_color: "#fafafa",
+            background_color: '#ffffff',
+            start_url: "/",
+            crossorigin: null, 
+            display: "standalone",
+            icons: [
+                {
+                    src: "app/assets/images/logo.png",
+                    sizes: [192],
+                }
+            ]
+        })
     ],
     optimization: {
         /* 

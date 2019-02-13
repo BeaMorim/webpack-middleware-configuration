@@ -6,7 +6,7 @@ module.exports = require('./webpack.config')({
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Personal React Boilerplate',
-            template: 'src/index.html',
+            template: 'app/index.html',
             inject: true,
             minify: {
                 collapseWhitespace: true,
