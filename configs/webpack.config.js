@@ -7,15 +7,15 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = (options) => ({
     ...options,
-    entry: [
-        'webpack-hot-middleware/client?reload=true',
-        './app/index.js',
-    ],
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, '../build'),
-        publicPath: '/'
-    },
+    entry: options.entry,
+    
+    output: Object.assign(
+        {
+          path: path.resolve(process.cwd(), 'build'),
+          publicPath: '/',
+        },
+        options.output,
+    ),
     module: {
         rules: [
             {
@@ -26,17 +26,50 @@ module.exports = (options) => ({
                 }
             },
             {
+                /* Place to add loaders to app .css files(e.g. sass/less etc.) */
                 test: /\.css$/,
+                exclude: /node_modules/,
                 use: [
                     'style-loader', /* The style-loader adds CSS to the DOM by injecting a <style> tag */
                     'css-loader' /* The css-loader interprets @import and url() like import/require() and will resolve them. */
                 ]
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                /* Preprocess .css files located in node_modules */
+                test: /\.css$/,
+                include: /node_modules/,
                 use: [
-                    'file-loader' /* The file-loader resolves import/require() on a file into a url and emits the file into the output directory */
+                    'style-loader', 
+                    'css-loader'
+                ],
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader', /* The file-loader resolves import/require() on a file into a url and emits the file into the output directory */
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                          mozjpeg: {
+                            enabled: false, /* mozjpeg is disabled as it causes errors in some Linux environments */
+                          },
+                          optipng: {
+                            optimizationLevel: 7,
+                          }
+                        }
+                    }
                 ]
+            },
+            {
+                test: /\.svg/,
+                use: {
+                    loader: 'svg-url-loader', /* A webpack loader which loads SVG file as utf-8 encoded DataUrl string */ 
+                    options: {
+                        noquotes: true,
+                    },
+                }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -46,21 +79,12 @@ module.exports = (options) => ({
             }
         ]
     },
-    plugins: [
+
+    plugins: options.plugins.concat([
         /* A webpack plugin to remove/clean your build folder(s) before building */
         new CleanWebpackPlugin(['build'], {
             root: path.join(__dirname, '..')
         }),
-
-        /* Plugin that simplifies creation of HTML files to serve your bundles */
-        new HtmlWebpackPlugin({
-            title: 'Personal React Boilerplate',
-            template: 'app/index.html',
-            inject: true
-        }),
-
-        /* Tell webpack we want hot reloading */
-        new webpack.HotModuleReplacementPlugin(),
 
         /* 
         * webpack-pwa-manifest is a webpack plugin that generates a 'manifest.json' for your Progressive Web Application, 
@@ -83,34 +107,38 @@ module.exports = (options) => ({
 
 
         new WorkboxPlugin.GenerateSW()
-    ],
-    optimization: {
-        /* 
-        * Finds modules which are shared between chunk and splits them into separate chunks 
-        * to reduce duplication or separate vendor modules from application modules 
-        */
-		splitChunks: {
-			/* The name of the split chunk. Providing true will automatically generate a name based on chunks and cache group key */
-			name: true,
-			chunks: 'all',
+    ]),
 
-			/* Cache groups can inherit and/or override any options from splitChunks */
-			cacheGroups: {
-				vendors: {
-					name: 'vendors',
-					test: /[\\/]node_modules[\\/]/,
+    optimization: Object.assign(
+        {
+            /* 
+            * Finds modules which are shared between chunk and splits them into separate chunks 
+            * to reduce duplication or separate vendor modules from application modules 
+            */
+            splitChunks: {
+                /* The name of the split chunk. Providing true will automatically generate a name based on chunks and cache group key */
+                name: true,
+                chunks: 'all',
 
-					/* A module can belong to multiple cache groups. The optimization will prefer the cache group with a higher priority */
-					priority: -10
-				},
-				default: {
-					/* Minimum number of chunks that must share a module before splitting. */
-					minChunks: 2,
-					priority: -20,
-					reuseExistingChunk: true
-				}
-			}
-		}
-	}
+                /* Cache groups can inherit and/or override any options from splitChunks */
+                cacheGroups: {
+                    vendors: {
+                        name: 'vendors',
+                        test: /[\\/]node_modules[\\/]/,
+
+                        /* A module can belong to multiple cache groups. The optimization will prefer the cache group with a higher priority */
+                        priority: -10
+                    },
+                    default: {
+                        /* Minimum number of chunks that must share a module before splitting. */
+                        minChunks: 2,
+                        priority: -20,
+                        reuseExistingChunk: true
+                    }
+                }
+            }
+        },
+        options.optimization
+    )
 });
 

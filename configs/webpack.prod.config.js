@@ -2,7 +2,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = require('./webpack.config')({
     mode: 'production',
-    /* devtool: 'source-map', */
+
+    entry: [
+        path.resolve(process.cwd(), 'app/index.js')
+    ],
+    
+    output: {
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[name].[chunkhash].chunk.js',
+    },
+
+    
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Personal React Boilerplate',
@@ -22,4 +32,6 @@ module.exports = require('./webpack.config')({
             }
         })
     ]
+    
+    /* devtool: 'source-map', */
 })
