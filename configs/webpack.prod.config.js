@@ -1,8 +1,9 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = require('./webpack.config')({
     mode: 'production',
-
+    
     entry: [
         path.resolve(process.cwd(), 'app/index.js')
     ],
@@ -31,7 +32,7 @@ module.exports = require('./webpack.config')({
                 minifyURLs: true,
             }
         })
-    ]
+    ],
     
-    /* devtool: 'source-map', */
+    devtool: 'source-map'
 })
