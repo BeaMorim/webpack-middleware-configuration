@@ -15,14 +15,7 @@ module.exports = (options) => ({
         options.output,
     ),
     module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                }
-            },
+        rules: options.module.rules.concat([
             {
                 /* Place to add loaders to app .css files(e.g. sass/less etc.) */
                 test: /\.css$/,
@@ -75,7 +68,7 @@ module.exports = (options) => ({
                     'file-loader'
                 ]
             }
-        ]
+        ])
     },
 
     plugins: options.plugins.concat([
@@ -90,14 +83,14 @@ module.exports = (options) => ({
         */
         new WebpackPwaManifest({
             name: 'React Boilerplate',
-            theme_color: "#fafafa",
+            theme_color: '#fafafa',
             background_color: '#ffffff',
-            start_url: "/",
+            start_url: '/',
             crossorigin: null, 
-            display: "standalone",
+            display: 'standalone',
             icons: [
                 {
-                    src: "app/assets/images/logo.png",
+                    src: 'app/assets/images/logo.png',
                     sizes: [192, 512],
                 }
             ]

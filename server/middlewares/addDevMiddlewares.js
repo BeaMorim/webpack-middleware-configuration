@@ -17,7 +17,7 @@ module.exports = function addDevMiddlewarees(app, webpackConfig) {
     publicPath: webpackConfig.output.publicPath, 
 
     /* Options for formatting statistics displayed during and after compile */
-    stats: 'errors-only', 
+    stats: 'normal', 
   });
 
   app.use(compression());

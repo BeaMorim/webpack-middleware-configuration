@@ -13,6 +13,17 @@ module.exports = require('./webpack.config')({
         chunkFilename: '[name].[chunkhash].chunk.js',
     },
 
+    module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader'
+				}
+            }
+        ]
+	},
     
     plugins: [
         new HtmlWebpackPlugin({

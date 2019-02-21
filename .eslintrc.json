@@ -1,0 +1,52 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [ 
+        "eslint:recommended" 
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": { "jsx": true },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [ "react" ],
+    "rules": {
+        "indent": [ 2, "tab" ],
+        "linebreak-style": [ 2, "windows" ],
+        "quotes": [ 2, "single" ],
+        "semi": [ 2, "always" ],
+        "no-console": 1,
+        "no-debugger": 1,
+        "array-callback-return": 1,
+        "default-case": 2,
+        "curly": [2, "all"],
+        "eqeqeq": 2,
+        "no-alert": 2,
+        "no-else-return": 2,
+        "no-empty-function": 2,
+        "no-extra-label": 2,
+        "no-floating-decimal": 2,
+        "no-loop-func": 2,
+        "no-multi-spaces": 2,
+        "no-multi-str": 1,
+        "no-return-assign": 2,
+        "no-self-compare": 2,
+        "no-sequences": 2,
+        "no-useless-concat": 2,
+        "vars-on-top": 1,
+        "camelcase": 2,
+        "comma-style": [2, "last"],
+        "jsx-quotes": [2, "prefer-single"],
+        "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
+        "semi-style": [2, "last"],
+        "constructor-super": 2,
+        "react/jsx-uses-react": 2,
+        "react/jsx-uses-vars": 2
+    }
+}

@@ -15,6 +15,25 @@ module.exports = require('./webpack.config.js')({
 		chunkFilename: '[name].chunk.js',
 	},
 
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader'
+				}
+			},
+			{
+				/* Use enforce: "pre" section to check source files, not modified by other loaders */
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				enforce: "pre",
+				use: ["babel-loader", "eslint-loader"],
+			}
+		]
+	},
+
 	plugins: [
 		/* Tell webpack we want hot reloading */
 		new webpack.HotModuleReplacementPlugin(),
