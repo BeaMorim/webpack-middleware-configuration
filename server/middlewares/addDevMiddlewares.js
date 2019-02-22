@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const logger = require('../logger');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const compression = require('compression');
@@ -17,7 +18,12 @@ module.exports = function addDevMiddlewarees(app, webpackConfig) {
     publicPath: webpackConfig.output.publicPath, 
 
     /* Options for formatting statistics displayed during and after compile */
-    stats: 'normal', 
+    stats: 'normal',
+    
+    /* Created based on default */
+    reporter: function reporter(middlewareOptions, options) {
+      logger.reporter(middlewareOptions, options);
+    }
   });
 
   app.use(compression());

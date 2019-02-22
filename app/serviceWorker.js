@@ -11,7 +11,10 @@ export function register() {
 					/* Registration was successful */
 				}, function(err) {
 					/* Registration failed */
+
+					/* eslint-disable no-console */
 					console.log('ServiceWorker registration failed: ', err);
+					/* eslint-enable */
 				});
 		});
 	}
