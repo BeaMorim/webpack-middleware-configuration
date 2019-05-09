@@ -59,7 +59,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development node server",
     "start:prod": "cross-env NODE_ENV=production node server",
-    "build": "cross-env NODE_ENV=production webpack --config configs/webpack.prod.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.config.js",
     "lint": "./node_modules/.bin/eslint ./app/**/**.js"
   },
   "repository": {
